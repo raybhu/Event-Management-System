@@ -9,7 +9,27 @@
  * https://sailsjs.com/config/bootstrap
  */
 
-module.exports.bootstrap = async function(done) {
+module.exports.bootstrap = async function (done) {
+
+  if (await Organizer.count() > 0) {
+    return done();
+  }
+
+  await Organizer.createEach([
+    { name: "Martin Choy"},
+    { name: "Kenny Cheng"}
+    // etc.
+  ]);
+
+  if (await Venue.count() > 0) {
+    return done();
+  }
+
+  await Venue.createEach([
+    { name: "AAB"},
+    { name: "RRS"}
+    // etc.
+  ]);
 
   // By convention, this is a good place to set up fake data during development.
   //

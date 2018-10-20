@@ -1,0 +1,95 @@
+<div class="container" role="navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/search">Search</a>
+                <a class="nav-item nav-link active" href="">Create</a>
+                <a class="nav-item nav-link" href="/admin">Admin</a>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Event Management System</h1>
+            <p class="lead">HKBU Event Management System is a web-based system for department and student societies to
+                broadcast events and activities as well as registration.</p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form action="/create" method="POST">
+        <div class="form-row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="eventName">Event Name:</label>
+                    <input type="text" class="form-control" id="eventName" required>
+                </div>
+                <div class="form-group">
+                    <label for="shortDescription">Short Description:</label>
+                    <textarea name="" class="form-control" id="shortDescription" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fullDescription">Full Description:</label>
+                    <textarea name="" class="form-control" id="fullDescription" rows="10" required></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="imageUrl">Image URL:</label>
+                    <input type="url" class="form-control" id="ImageUrl" required>
+                </div>
+                <div class="form-group">
+                    <label for="organizer">Organizer:</label>
+                    <select class="form-control" id="organizer" required>
+                        <option selected disabled>Please pick one:</option>
+                        <% organizers.forEach(function (model) { %>
+                        <option value="<%= model.name %>">
+                            <%= model.name %>
+                        </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Event Date:</label>
+                    <input type="date" class="form-control" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" class="form-control" id="time" required>
+                </div>
+                <div class="form-group">
+                    <label for="venue">Venue:</label>
+
+
+
+                    <select class="form-control" id="venue" required>
+                        <option selected disabled>Please pick one:</option>
+                        <% venues.forEach(function (model) { %>
+                        <option value="<%= model.name %>">
+                            <%= model.name %>
+                        </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quota">Quota:</label>
+                    <input type="number" class="form-control" id="quota" required>
+                </div>
+                <div class="form-group form-check form-check-inline">
+                    <input type="checkbox" class="form-check-input" id="highlightedEvent" required>
+                    <label for="highlightedEvent" class="form-check-label">Highlighted Event</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

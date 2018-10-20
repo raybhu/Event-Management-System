@@ -24,9 +24,13 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'pages/homepage'
-  },
+  // '/': {
+  //   view: 'pages/homepage'
+  // },
+
+  '/': 'HomepageController.index',
+
+  'GET /create': 'CreateController.init'
 
   /***************************************************************************
   *                                                                          *
