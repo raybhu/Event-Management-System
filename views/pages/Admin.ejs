@@ -8,8 +8,8 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="/search">Search</a>
-                <a class="nav-item nav-link active" href="">Create</a>
-                <a class="nav-item nav-link" href="/admin">Admin</a>
+                <a class="nav-item nav-link" href="/create">Create</a>
+                <a class="nav-item nav-link active" href="/admin">Admin</a>
             </div>
         </div>
     </nav>
@@ -24,7 +24,11 @@
     </div>
 </div>
 
-<% if (typeof isSuccessfulCreatedEvent !== "undefined") { %>
+
+
+<% if (isUpdate === false) { %>
+
+<% if (typeof isSuccessfulUpdatedEvent !== "undefined" && isSuccessfulUpdatedEvent) { %>
 <div class="container">
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <h4 class="alert-heading">
@@ -40,35 +44,96 @@
 </div>
 <%}%>
 
+<% if (typeof isSuccessfulDeletedEvent !== "undefined" && isSuccessfulDeletedEvent) { %>
+    <div class="container">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading">
+                <%= log.title %>
+            </h4>
+            <p>
+                <%= log.content %>
+            </p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <%}%>
 
 <div class="container">
-    <form action="/create" method="POST">
+    <table class="table table-striped">
+        <tbody>
+            <% events.forEach(function (model) { %>
+            <form action="/admin/update/<%= model.id %>" method="GET">
+                <tr>
+                    <th scope="row">
+                        <%= model.id %>
+                    </th>
+                    <td>
+                        <button class="btn btn-link" type="submit">
+                            <%= model.eventName %>
+                        </button>
+                    </td>
+                </tr>
+            </form>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+<% } else { %>
+
+<% if (typeof isSuccessfulUpdatedEvent !== "undefined") { %>
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">
+            <%= log.title %>
+        </h4>
+        <p>
+            <%= log.content %>
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<% } %>
+
+<div class="container">
+    <form action="/admin/update/<%= eventModel.id %>" method="POST">
         <div class="form-row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="eventName">Event Name:</label>
-                    <input name="Event[eventName]" type="text" class="form-control" id="eventName" required>
+                    <input value="<%= eventModel.eventName %>" name="Event[eventName]" type="text" class="form-control"
+                        id="eventName" required>
                 </div>
                 <div class="form-group">
                     <label for="shortDescription">Short Description:</label>
-                    <textarea name="Event[shortDescription]" class="form-control" id="shortDescription" rows="6"
-                        required></textarea>
+                    <textarea value="<%= eventModel.shortDescription %>" name="Event[shortDescription]" class="form-control"
+                        id="shortDescription" rows="6" required><%= eventModel.shortDescription %></textarea>
                 </div>
                 <div class="form-group">
                     <label for="fullDescription">Full Description:</label>
-                    <textarea name="Event[fullDescription]" class="form-control" id="fullDescription" rows="10"
-                        required></textarea>
+                    <textarea value="<%= eventModel.fullDescription %>" name="Event[fullDescription]" class="form-control"
+                        id="fullDescription" rows="10" required><%= eventModel.fullDescription %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger" onclick="this.form.action='/admin/delete/<%= eventModel.id %>'">Delete</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="imageUrl">Image URL:</label>
-                    <input name="Event[imageUrl]" type="url" class="form-control" id="ImageUrl" required>
+                    <input value="<%= eventModel.imageUrl %>" name="Event[imageUrl]" type="url" class="form-control" id="ImageUrl"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="organizer">Organizer:</label>
                     <select name="Event[organizer]" class="form-control" id="organizer" required>
-                        <option selected disabled hidden>Please pick one:</option>
+                        <option value="<%= eventModel.organizer %>" selected>
+                            <%= eventModel.organizer %>
+                        </option>
                         <% organizers.forEach(function (model) { %>
                         <option value="<%= model.name %>">
                             <%= model.name %>
@@ -78,16 +143,20 @@
                 </div>
                 <div class="form-group">
                     <label for="eventDate">Event Date:</label>
-                    <input name="Event[eventDate]" type="date" class="form-control" id="eventDate" required>
+                    <input value="<%= eventModel.eventDate %>" name="Event[eventDate]" type="date" class="form-control"
+                        id="eventDate" required>
                 </div>
                 <div class="form-group">
                     <label for="time">Time:</label>
-                    <input name="Event[time]" type="time" class="form-control" id="time" required>
+                    <input value="<%= eventModel.time %>" name="Event[time]" type="time" class="form-control" id="time"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="venue">Venue:</label>
                     <select name="Event[venue]" class="form-control" id="venue" required>
-                        <option selected disabled>Please pick one:</option>
+                        <option value="<%= eventModel.venue %>" selected>
+                            <%= eventModel.venue %>
+                        </option>
                         <% venues.forEach(function (model) { %>
                         <option value="<%= model.name %>">
                             <%= model.name %>
@@ -97,11 +166,15 @@
                 </div>
                 <div class="form-group">
                     <label for="quota">Quota:</label>
-                    <input name="Event[quota]" type="number" class="form-control" id="quota" required>
+                    <input value="<%= eventModel.quota %>" name="Event[quota]" type="number" class="form-control" id="quota"
+                        required>
                 </div>
                 <div class="form-group form-check form-check-inline">
                     <input name="Event[highlightedEvent]" type="checkbox" class="form-check-input" id="highlightedEvent"
-                        value="true">
+                        value="true" <% if (eventModel.highlightedEvent) { %>
+                    checked
+                    <% } %>
+                    >
                     <label for="highlightedEvent" class="form-check-label">Highlighted Event</label>
                 </div>
                 <div class="form-group">
@@ -111,3 +184,7 @@
         </div>
     </form>
 </div>
+
+
+
+<% } %>

@@ -30,7 +30,19 @@ module.exports.routes = {
 
   '/': 'HomepageController.index',
 
-  'GET /create': 'CreateController.init'
+  'GET /create': 'CreateController.init',
+
+  'POST /create': 'CreateController.init',
+
+  'GET /admin': 'AdminController.init',
+
+  'GET /admin/update/:id': 'AdminController.update',
+
+  'POST /admin/update/:id': 'AdminController.update',
+
+  'POST /admin/delete/:id': 'AdminController.delete',
+
+  'GET /search': 'SearchController.init',
 
   /***************************************************************************
   *                                                                          *

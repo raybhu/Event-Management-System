@@ -45,16 +45,13 @@ module.exports = {
       type: "string"
     },
 
-    venue: {
-      type: "string"
-    },
-
     quota: {
       type: "number"
     },
 
     highlightedEvent: {
-      type: "boolean"
+      type: "boolean",
+      defaultsTo: false
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
