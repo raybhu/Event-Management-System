@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="/search">Search</a>
                 <a class="nav-item nav-link" href="/create">Create</a>
                 <a class="nav-item nav-link" href="/admin">Admin</a>
@@ -17,8 +17,30 @@
 <div class="container">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4">Event Management System</h1>
-          <p class="lead">HKBU Event Management System is a web-based system for department and student societies to broadcast events and activities as well as registration.</p>
+            <h1 class="display-4">Event Management System</h1>
+            <p class="lead">HKBU Event Management System is a web-based system for department and student societies to
+                broadcast events and activities as well as registration.</p>
         </div>
-      </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <% events.forEach( function (model) { %>
+        <div class="card col-md-6">
+            <div class="card-body ">
+                <div class="row">
+                    <a href="/detail/<%=model.id%>" class="col-md-12">
+                        <h5 class="card-title">
+                            <%=model.eventName%>
+                        </h5>
+                    </a>
+                    <img class="card-img-top col-md-4" src="<%= model.imageUrl %>" alt="">
+                    <p class="card-text col-md-8">
+                        <%= model.shortDescription %>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <%  }) %>
+    </div>
 </div>

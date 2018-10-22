@@ -44,6 +44,8 @@ module.exports.routes = {
 
   'GET /search': 'SearchController.init',
 
+  'GET /detail/:id': 'DetailController.init',
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
