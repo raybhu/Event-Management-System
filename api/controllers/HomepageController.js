@@ -8,11 +8,13 @@
 module.exports = {
   
     index: async function (req, res) {
-
+        var today = new Date();
         
         var eventModels = await Event.find({
+           
             limit: 4,
-        });
+        }).sort('createdAt DESC');
+        console.log(eventModels);
         if (typeof eventModels !== 'undefined' && eventModels) {
             return res.view('pages/homepage', {
                 events: eventModels,
