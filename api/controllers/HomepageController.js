@@ -11,7 +11,7 @@ module.exports = {
         var today = new Date();
         
         var eventModels = await Event.find({
-           
+            where: {highlightedEvent: true},
             limit: 4,
         }).sort('createdAt DESC');
         console.log(eventModels);
