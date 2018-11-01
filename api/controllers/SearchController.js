@@ -13,27 +13,31 @@ module.exports = {
         }
         
         var eventModels = null;
-        var constraint;
+        var constraint = {};
         if (typeof req.query.searchEventName !== 'undefined') {
-            constraint = {};
+            
             constraint["eventName"] = { contains: req.query.searchEventName };
         }
-        if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchEndDate) {
-            constraint = {};
-            constraint["eventDate"] = req.query.searchStartDate;
+        if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchStartDate) {
+          
+            //constraint["eventDate"] = req.query.searchStartDate;
+            
+            constraint["eventDate"]['>='] = req.query.searchStartDate;
         }
         if (typeof req.query.searchEndDate !== 'undefined' && req.query.searchEndDate) {
-            constraint = {};
-            constraint["eventDate"] = req.query.searchEndDate;
+          
+           
+            constraint["eventDate"]['<='] = req.query.searchEndDate;
         }
         if (typeof req.query.searchOrganizer !== 'undefined') {
-            constraint = {};
+            
             constraint["organizer"] = req.query.searchOrganizer;
         }
         if (typeof req.query.searchVenue !== 'undefined') {
-            constraint = {};
+            
             constraint["venue"] = req.query.searchVenue;
         }
+        console.log(constraint);
         const qPage = Math.max(req.query.page - 1, 0) || 0;
 
         const numOfItemsPerPage = 2;
