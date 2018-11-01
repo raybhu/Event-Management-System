@@ -21,12 +21,17 @@ module.exports = {
         if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchStartDate) {
           
             //constraint["eventDate"] = req.query.searchStartDate;
+            if (typeof constraint["eventDate"] === 'undefined') {
+                constraint["eventDate"] ={};
+            } 
             
             constraint["eventDate"]['>='] = req.query.searchStartDate;
         }
         if (typeof req.query.searchEndDate !== 'undefined' && req.query.searchEndDate) {
           
-           
+            if (typeof constraint["eventDate"] === 'undefined') {
+                constraint["eventDate"] ={};
+            } 
             constraint["eventDate"]['<='] = req.query.searchEndDate;
         }
         if (typeof req.query.searchOrganizer !== 'undefined') {
