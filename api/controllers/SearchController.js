@@ -11,35 +11,35 @@ module.exports = {
         if (req.method == "POST") {
             return res.forbidden();
         }
-        
+
         var eventModels = null;
         var constraint = {};
         if (typeof req.query.searchEventName !== 'undefined') {
-            
+
             constraint["eventName"] = { contains: req.query.searchEventName };
         }
         if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchStartDate) {
-          
+
             //constraint["eventDate"] = req.query.searchStartDate;
             if (typeof constraint["eventDate"] === 'undefined') {
-                constraint["eventDate"] ={};
-            } 
-            
+                constraint["eventDate"] = {};
+            }
+
             constraint["eventDate"]['>='] = req.query.searchStartDate;
         }
         if (typeof req.query.searchEndDate !== 'undefined' && req.query.searchEndDate) {
-          
+
             if (typeof constraint["eventDate"] === 'undefined') {
-                constraint["eventDate"] ={};
-            } 
+                constraint["eventDate"] = {};
+            }
             constraint["eventDate"]['<='] = req.query.searchEndDate;
         }
         if (typeof req.query.searchOrganizer !== 'undefined') {
-            
+
             constraint["organizer"] = req.query.searchOrganizer;
         }
         if (typeof req.query.searchVenue !== 'undefined') {
-            
+
             constraint["venue"] = req.query.searchVenue;
         }
         console.log(constraint);
@@ -66,7 +66,7 @@ module.exports = {
             });
             amount = await Event.count();
         }
-        
+
         var venueModels = await Venue.find();
         var organizerModels = await Organizer.find();
         var venueCount = await Venue.count();
@@ -85,5 +85,5 @@ module.exports = {
             });
         }
     },
- };
+};
 
