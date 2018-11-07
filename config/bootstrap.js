@@ -8,13 +8,31 @@
  * For more information on bootstrapping your app, check out:
  * https://sailsjs.com/config/bootstrap
  */
-
 module.exports.bootstrap = async function (done) {
-
+  sails.bcrypt = require('bcryptjs');
+  const saltRounds = 10;
+  if (await User.count() > 0) {
+    return done();
+  }
+  const hash = await sails.bcrypt.hash('123456', saltRounds);
+  await User.createEach([{
+    username: "admin",
+    password: hash,
+    role: "admin",
+  },
+  {
+    username: "Student1",
+    password: hash,
+    role: "student",
+  },
+  {
+    username: "Student2",
+    password: hash,
+    role: "student",
+  }])
   if (await Event.count() > 0) {
     return done();
   }
-
   await Event.createEach([
     {
       eventName: "1.HKBU student wins Macao Scientific and Technological Research and Development Award for Postgraduates",
@@ -157,21 +175,17 @@ module.exports.bootstrap = async function (done) {
       highlightedEvent: false,
     },
   ]);
-
   if (await Organizer.count() > 0) {
     return done();
   }
-
   await Organizer.createEach([
     { name: "Martin Choy" },
     { name: "Kenny Cheng" }
     // etc.
   ]);
-
   if (await Venue.count() > 0) {
     return done();
   }
-
   await Venue.createEach([
     { name: "AAB" },
     { name: "RRS" },
@@ -211,7 +225,6 @@ module.exports.bootstrap = async function (done) {
     { name: "CVA" },
     // etc.
   ]);
-
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
@@ -227,9 +240,7 @@ module.exports.bootstrap = async function (done) {
   //   // etc.
   // ]);
   // ```
-
   // Don't forget to trigger `done()` when this bootstrap function's logic is finished.
   // (otherwise your server will never lift, since it's waiting on the bootstrap)
   return done();
-
 };
