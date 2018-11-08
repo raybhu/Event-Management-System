@@ -5,13 +5,46 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link active" href="/search">Search</a>
-                <a class="nav-item nav-link" href="/create">Create</a>
-                <a class="nav-item nav-link" href="/admin">Admin</a>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <%if (user) {%>
+                <%if (user.role === "admin") {%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create">Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin</a>
+                </li>
+                <%   } else if (user.role === "student"){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-registered-events">My Registered Events</a>
+                </li>
+                <%}%>
+                <%  }%>
+            </ul>
         </div>
+        <% if (user) { %>
+        <form action="/logout" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
+            <div class="form-group">
+                <span class="navbar-text mr-sm-2">hi,
+                    <%=user.username%></span>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
+            </div>
+        </form>
+        <%} else {%>
+        <form action="/login" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
+            <div class="form-group">
+                <input name="username" class="form-control mr-sm-2" type="text" placeholder="Username" value="admin">
+                <input name="password" class="form-control mr-sm-2" type="password" placeholder="Password" value="123456">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
+            </div>
+        </form>
+        <% }%>
     </nav>
 </div>
 <div class="container">
@@ -50,12 +83,62 @@
                         <li class="list-group-item"><b>Venue: </b>
                             <%=eventModel.venue%>
                         </li>
-                        <li class="list-group-item"><b>Quota: </b>
+                        <li class="list-group-item" id="eventQuota"><b>Quota: </b>
                             <%=eventModel.quota%>
                         </li>
+                        <%if (user && user.role == 'student') {%>
+                        <%  if (!isRegistered) {%>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" onclick="registerEvent(this)" value=<%=eventModel.id%>>Register</button>
+                        </li>
+                        <% } else {%>
+                        <li class="list-group-item">
+                            <button class="btn btn-danger" onclick="cancelEvent(this)" value=<%=eventModel.id%>>Cancel</button>
+                        </li>
+                        <%   }%>
+                        <!-- TODO: 加入判断是否已经注册事件 -->
+                        <%}%>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    async function registerEvent(button) {
+        // alert('1');
+        if (typeof button.value !== "undefined" && button.value) {
+            var response = await fetch("/user/event/", {
+                method: "POST",
+                credentials: 'same-origin',
+                body: JSON.stringify({ eventId: button.value }),
+            });
+        }
+        console.log(JSON.stringify(response.body));
+        if (response.status == 200) {
+            //var data = await response.json();
+            location.reload(true);
+        } else if (response.status == 401) {
+            var data = await response.text();
+            alert(data);
+        } else {
+            alert(response.statusText);
+        }
+    };
+    async function cancelEvent(button) {
+        var response = await fetch("/user/event/", {
+            method: "DELETE",
+            credentials: 'same-origin',
+            body: JSON.stringify({ eventId: button.value }),
+        });
+        if (response.status == 200) {
+            //var data = await response.json();
+            location.reload(true);
+        } else if (response.status == 401) {
+            var data = await response.text();
+            alert(data);
+        } else {
+            alert(response.statusText);
+        }
+    };
+</script>

@@ -7,16 +7,21 @@
  * For more information on configuring policies, check out:
  * https://sailsjs.com/docs/concepts/policies
  */
-
 module.exports.policies = {
-
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions, unless overridden.       *
   * (`true` allows public access)                                            *
   *                                                                          *
   ***************************************************************************/
-
   // '*': true,
-
+  AdminController: {
+    '*': 'isAdmin',
+  },
+  CreateController: {
+    '*': 'isAdmin',
+  },
+  MyRegisteredEventsController: {
+    '*': 'isStudent',
+  }
 };

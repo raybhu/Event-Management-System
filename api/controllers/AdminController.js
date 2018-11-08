@@ -4,23 +4,25 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
 module.exports = {
     init: async function (req, res) {
         var eventModels = await Event.find();
+        var user;
+        if (typeof req.session.username !== "undefined") {
+            user = await User.findOne({ username: req.session.username });
+        }
         if (req.method == "GET") {
             return res.view('pages/Admin', {
                 isUpdate: false,
                 events: eventModels,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         }
     },
-
     update: async function (req, res) {
         var ExistedEvent = await Event.findOne(req.params.id);
         if (typeof ExistedEvent === "undefined") return res.badRequest("The Event is not existed.");
-
         var venueModels = await Venue.find();
         var organizerModels = await Organizer.find();
         var venueCount = await Venue.count();
@@ -28,6 +30,10 @@ module.exports = {
         var isSuccessfulUpdatedEvent = null;
         var log = { title: "", content: "" };
         var eventModel = await Event.findOne(req.params.id);
+        var user;
+        if (typeof req.session.username !== "undefined") {
+            user = await User.findOne({ username: req.session.username });
+        }
         if (req.method == "GET") {
             return res.view('pages/Admin/', {
                 isUpdate: true,
@@ -36,7 +42,8 @@ module.exports = {
                 venuesCount: venueCount,
                 organizers: organizerModels,
                 organizersCount: organizerCount,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         } else if (req.method == "POST") {
             if (typeof req.body.Event === "undefined") {
@@ -76,7 +83,8 @@ module.exports = {
                 log: log,
                 isUpdate: false,
                 events: eventModels,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         }
     },
@@ -86,14 +94,24 @@ module.exports = {
         } else if (req.method == "POST") {
             var models = await Event.destroy(req.params.id).fetch();
             var eventModels = await Event.find();
+            var user;
+            if (typeof req.session.username !== "undefined") {
+                user = await User.findOne({ username: req.session.username });
+            }
             return res.view('pages/Admin', {
                 isSuccessfulDeletedEvent: true,
                 log: { title: "Well done!", content: "Aww yeah, you successfully Deleted an event!" },
                 isUpdate: false,
                 events: eventModels,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         }
-    }
+    },
+    search: async function (req, res) {
+        var event = await Event.findOne({ id: req.body.eventId });
+        var userModels = await Event.find({ id: event.id }).populate('beRegister');
+        res.status(200);
+        return res.json({ registers: userModels[0].beRegister });
+    },
 };
-

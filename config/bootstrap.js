@@ -21,12 +21,17 @@ module.exports.bootstrap = async function (done) {
     role: "admin",
   },
   {
-    username: "Student1",
+    username: "student1",
     password: hash,
     role: "student",
   },
   {
-    username: "Student2",
+    username: "student2",
+    password: hash,
+    role: "student",
+  },
+  {
+    username: "student3",
     password: hash,
     role: "student",
   }])
@@ -225,6 +230,16 @@ module.exports.bootstrap = async function (done) {
     { name: "CVA" },
     // etc.
   ]);
+  const testEvent1 = await Event.findOne({ eventName: "1.HKBU student wins Macao Scientific and Technological Research and Development Award for Postgraduates" });
+  const testEvent2 = await Event.findOne({ eventName: "2.UGC Quality Audit Report commends HKBU for effective management of academic quality and standards in sub-degree operations" });
+  const testEvent3 = await Event.findOne({ eventName: "3.HKBU Information Day attracts 25,000 visitors to experience vibrant campus life" });
+  const testEvent4 = await Event.findOne({ eventName: "9.HKBU student wins Macao Scientific and Technological Research and Development Award for Postgraduates" });
+  const testEvent5 = await Event.findOne({ eventName: "10.UGC Quality Audit Report commends HKBU for effective management of academic quality and standards in sub-degree operations" });
+  const testEvent6 = await Event.findOne({ eventName: "11.HKBU Information Day attracts 25,000 visitors to experience vibrant campus life" });
+  const testStudent1 = await User.findOne({ username: "student1" });
+  const testStudent2 = await User.findOne({ username: "student3" });
+  await User.addToCollection(testStudent1.id, 'registered').members([testEvent1.id, testEvent2.id, testEvent3.id, testEvent4.id, testEvent5.id, testEvent6.id]);
+  await User.addToCollection(testStudent2.id, 'registered').members([testEvent1.id, testEvent2.id, testEvent3.id, testEvent4.id, testEvent5.id, testEvent6.id]);
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:

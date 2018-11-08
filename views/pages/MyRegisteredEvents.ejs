@@ -6,29 +6,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/">Home </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/search">Search</a>
                 </li>
-                <%if (user) {%>
-                <%if (user.role === "admin") {%>
                 <li class="nav-item">
-                    <a class="nav-link" href="/create">Create</a>
+                    <a class="nav-link active" href="/my-registered-events">My Registered Events</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin">Admin</a>
-                </li>
-                <%   } else if (user.role === "student"){%>
-                <li class="nav-item">
-                    <a class="nav-link" href="/my-registered-events">My Registered Events</a>
-                </li>
-                <%}%>
-                <%  }%>
             </ul>
         </div>
-        <% if (user) { %>
         <form action="/logout" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
             <div class="form-group">
                 <span class="navbar-text mr-sm-2">hi,
@@ -36,24 +24,13 @@
                 <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
             </div>
         </form>
-        <%} else {%>
-        <form action="/login" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
-            <div class="form-group">
-                <input name="username" class="form-control mr-sm-2" type="text" placeholder="Username" value="admin">
-                <input name="password" class="form-control mr-sm-2" type="password" placeholder="Password" value="123456">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
-            </div>
-        </form>
-        <% }%>
     </nav>
 </div>
-<div class=" container">
+<div class="container">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">Event Management System</h1>
-            <p class="lead">HKBU Event Management System is a web-based system for department and
-                student
-                societies to
+            <p class="lead">HKBU Event Management System is a web-based system for department and student societies to
                 broadcast events and activities as well as registration.</p>
         </div>
     </div>
@@ -61,18 +38,30 @@
 <div class="container">
     <div class="row">
         <% events.forEach( function (model) { %>
-        <div class="card col-md-6">
+        <div class="card col-md-4">
             <div class="card-body ">
+                <div class="row">
+                    <img class="card-img-top col-md-12" src="<%= model.imageUrl %>" alt="">
+                </div>
                 <div class="row">
                     <a href="/detail/<%=model.id%>" class="col-md-12 ">
                         <h5 class="card-title">
                             <%=model.eventName%>
                         </h5>
                     </a>
-                    <img class="card-img-top col-md-4" src="<%= model.imageUrl %>" alt="">
-                    <p class="card-text col-md-8">
-                        <%= model.shortDescription %>
-                    </p>
+                </div>
+                <div class="row ">
+                    <ul class="list-group col-md-12">
+                        <li class="list-group-item"><b>Date: </b>
+                            <%=model.eventDate%>
+                        </li>
+                        <li class="list-group-item"><b>Time: </b>
+                            <%=model.time%>
+                        </li>
+                        <li class="list-group-item"><b>Venue: </b>
+                            <%=model.venue%>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

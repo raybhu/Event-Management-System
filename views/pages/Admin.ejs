@@ -5,13 +5,36 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/search">Search</a>
-                <a class="nav-item nav-link" href="/create">Create</a>
-                <a class="nav-item nav-link active" href="/admin">Admin</a>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <%if (user) {%>
+                <%if (user.role === "admin") {%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create">Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin">Admin</a>
+                </li>
+                <%   } else if (user.role === "student"){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-registered-events">My Registered Events</a>
+                </li>
+                <%}%>
+                <%  }%>
+            </ul>
         </div>
+        <form action="/logout" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
+            <div class="form-group">
+                <span class="navbar-text mr-sm-2">hi,
+                    <%=user.username%></span>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
+            </div>
+        </form>
     </nav>
 </div>
 <div class="container">
@@ -55,21 +78,45 @@
 </div>
 <%}%>
 <div class="container">
-    <table class="table table-striped">
+    <table class="table table-striped table-responsive-md ">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Event</th>
+                <th scope="col">Organizer</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
         <tbody>
             <% events.forEach(function (model) { %>
-            <form action="/admin/update/<%= model.id %>" method="GET">
-                <tr>
-                    <th scope="row">
-                        <%= model.id %>
-                    </th>
-                    <td>
-                        <button class="btn btn-link" type="submit">
-                            <%= model.eventName %>
-                        </button>
-                    </td>
-                </tr>
-            </form>
+            <tr class="">
+                <th scope="row" class="">
+                    <%= model.id %>
+                </th>
+                <td class="">
+                    <a href="/detail/<%= model.id %>">
+                        <%= model.eventName %>
+                    </a>
+                </td>
+                <td class="">
+                    <p>
+                        <%= model.organizer %>
+                    </p>
+                </td>
+                <td class="">
+                    <button class="btn btn-warning" herf="/admin/update/<%= model.id %>">Update</button>
+                </td>
+                <td class="">
+                    <form action="/admin/delete/<%= model.id %>" method="POST">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+                <td class="">
+                    <button class="btn btn-info" onclick="checkRegister(this)" value=<%=model.id %>>Registeration</button>
+                </td>
+            </tr>
             <% }); %>
         </tbody>
     </table>
@@ -89,7 +136,7 @@
         </button>
     </div>
 </div>
-<% } %> 
+<% } %>
 <div class="container">
     <form action="/admin/update/<%= eventModel.id %>" method="POST">
         <div class="form-row">
@@ -176,3 +223,21 @@
     </form>
 </div>
 <% } %>
+<script>
+    async function checkRegister(button) {
+        var response = await fetch("/admin/search", {
+            method: "POST",
+            credentials: 'same-origin',
+            body: JSON.stringify({ eventId: button.value }),
+        });
+        if (response.status == 200) {
+            var data = await response.json();
+            alert(JSON.stringify(data.registers));
+        } else if (response.status == 401) {
+            var data = await response.text();
+            alert(data);
+        } else {
+            alert(response.statusText);
+        }
+    }
+</script>

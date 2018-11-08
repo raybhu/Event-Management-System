@@ -22,6 +22,10 @@ module.exports = {
       type: 'string',
       enum: ['admin', 'student'],
       defaultsTo: 'visitor'
+    },
+    registered: {
+      collection: 'Event',
+      via: 'beRegister',
     }
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

@@ -5,14 +5,46 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link active" href="/search">Search</a>
-                <a class="nav-item nav-link" href="/create">Create</a>
-                <a class="nav-item nav-link" href="/admin">Admin</a>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/search">Search</a>
+                </li>
+                <%if (user) {%>
+                <%if (user.role === "admin") {%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/create">Create</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">Admin</a>
+                </li>
+                <%   } else if (user.role === "student"){%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/my-registered-events">My Registered Events</a>
+                </li>
+                <%}%>
+                <%  }%>
+            </ul>
         </div>
-    </nav>
+        <% if (user) { %>
+        <form action="/logout" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
+            <div class="form-group">
+                <span class="navbar-text mr-sm-2">hi,
+                    <%=user.username%></span>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
+            </div>
+        </form>
+        <%} else {%>
+        <form action="/login" method="POST" class="form-inline my-2" onsubmit="login(this);return false">
+            <div class="form-group">
+                <input name="username" class="form-control mr-sm-2" type="text" placeholder="Username" value="admin">
+                <input name="password" class="form-control mr-sm-2" type="password" placeholder="Password" value="123456">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
+            </div>
+        </form>
+        <% }%>
 </div>
 <div class="container">
     <div class="jumbotron jumbotron-fluid">
@@ -36,15 +68,11 @@
                             <%newPreviousUrl += '&searchEventName=' + req.query.searchEventName%>
                             <% } if (req.query.searchOrganizer) { %>
                             <%newPreviousUrl +='&searchOrganizer=' + req.query.searchOrganizer%>
-
                             <% } if (req.query.searchStartDate) {%>
-
                             <%newPreviousUrl +='&searchStartDate=' + req.query.searchStartDate%>
                             <% } if (req.query.searchEndDate) { %>
-
                             <%newPreviousUrl +='&searchEndDate=' + req.query.searchEndDate%>
                             <% } if (req.query.searchVenue) {%>
-
                             <%newPreviousUrl +='&searchVenue=' + req.query.searchVenue%>
                             <% } %>
                             <%=encodeURI(newPreviousUrl)%>
@@ -59,20 +87,14 @@
                             <%newUrl += '&searchEventName=' + req.query.searchEventName%>
                             <% } if (req.query.searchOrganizer) { %>
                             <%newUrl +='&searchOrganizer=' + req.query.searchOrganizer%>
-
                             <% } if (req.query.searchStartDate) {%>
-
                             <%newUrl +='&searchStartDate=' + req.query.searchStartDate%>
                             <% } if (req.query.searchEndDate) { %>
-
                             <%newUrl +='&searchEndDate=' + req.query.searchEndDate%>
                             <% } if (req.query.searchVenue) {%>
-
                             <%newUrl +='&searchVenue=' + req.query.searchVenue%>
                             <% } %>
-
                             <%=encodeURI(newUrl)%>
-
                             >
                             <%= i %></a>
                     </li>
@@ -84,18 +106,13 @@
                             <%newNextUrl += '&searchEventName=' + req.query.searchEventName%>
                             <% } if (req.query.searchOrganizer) { %>
                             <%newNextUrl +='&searchOrganizer=' + req.query.searchOrganizer%>
-
                             <% } if (req.query.searchStartDate) {%>
-
                             <%newNextUrl +='&searchStartDate=' + req.query.searchStartDate%>
                             <% } if (req.query.searchEndDate) { %>
-
                             <%newNextUrl +='&searchEndDate=' + req.query.searchEndDate%>
                             <% } if (req.query.searchVenue) {%>
-
                             <%newNextUrl +='&searchVenue=' + req.query.searchVenue%>
                             <% } %>
-
                             <%=encodeURI(newNextUrl)%>
                             >Next</a>
                     </li>

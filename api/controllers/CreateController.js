@@ -4,7 +4,6 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
 module.exports = {
     init: async function (req, res) {
         var venueModels = await Venue.find();
@@ -13,28 +12,29 @@ module.exports = {
         var organizerCount = await Organizer.count();
         var isSuccessfulCreatedEvent = null;
         var log = { title: "", content: "" };
+        var user;
+        if (typeof req.session.username !== "undefined") {
+            user = await User.findOne({ username: req.session.username });
+        }
         if (req.method == "GET") {
             return res.view('pages/Create', {
                 venues: venueModels,
                 venuesCount: venueCount,
                 organizers: organizerModels,
                 organizersCount: organizerCount,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         } else if (req.method == "POST") {
-
-
             if (typeof req.body.Event === "undefined") {
                 isSuccessfulCreatedEvent = false;
                 log = { title: "Error!", content: "Sorry, you failure created event. Failure reasons: The Event model is undefined!" };
             } else if (typeof req.body.Event.organizer === "undefined") {
                 isSuccessfulCreatedEvent = false;
                 log = { title: "Error!", content: "Sorry, you failure created event. Failure reasons: The Event Organizer must be selected!" };
-
             } else if (typeof req.body.Event.venue === "undefined") {
                 isSuccessfulCreatedEvent = false;
                 log = { title: "Error!", content: "Sorry, you failure created event. Failure reasons: The Venue must be selected!" };
-
             }
             else {
                 await Event.create(req.body.Event);
@@ -48,11 +48,9 @@ module.exports = {
                 venuesCount: venueCount,
                 organizers: organizerModels,
                 organizersCount: organizerCount,
-                layout: 'layouts/bootstrap'
+                layout: 'layouts/bootstrap',
+                user: typeof user === "undefined" ? null : user,
             });
         }
-
     },
-
 };
-

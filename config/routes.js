@@ -7,14 +7,10 @@
  * For more information on configuring custom routes, check out:
  * https://sailsjs.com/anatomy/config/routes-js
  */
-
 module.exports.routes = {
-
-
   //  ╦ ╦╔═╗╔╗ ╔═╗╔═╗╔═╗╔═╗╔═╗
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
-
   /***************************************************************************
   *                                                                          *
   * Make the view located at `views/homepage.ejs` your home page.            *
@@ -23,30 +19,24 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-
   // '/': {
   //   view: 'pages/homepage'
   // },
-
   '/': 'HomepageController.index',
-
   'GET /create': 'CreateController.init',
-
   'POST /create': 'CreateController.init',
-
   'GET /admin': 'AdminController.init',
-
   'GET /admin/update/:id': 'AdminController.update',
-
   'POST /admin/update/:id': 'AdminController.update',
-
   'POST /admin/delete/:id': 'AdminController.delete',
-
+  'POST /admin/search/': 'AdminController.search',
   'GET /search': 'SearchController.init',
-
   'GET /detail/:id': 'DetailController.init',
-
-  /***************************************************************************
+  'GET /my-registered-events': 'MyRegisteredEventsController.init',
+  'POST /login': 'UserController.login',
+  'POST /logout': 'UserController.logout',
+  'POST /user/event/': 'UserController.registerEvent',
+  'DELETE /user/event/': 'UserController.cancelEvent',   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
   * (See https://sailsjs.com/config/routes for examples.)                    *
@@ -56,22 +46,13 @@ module.exports.routes = {
   * not match any of those, it is matched against static assets.             *
   *                                                                          *
   ***************************************************************************/
-
-
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
   //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
-
-
-
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
   //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝
-
-
   //  ╔╦╗╦╔═╗╔═╗
   //  ║║║║╚═╗║
   //  ╩ ╩╩╚═╝╚═╝
-
-
 };
