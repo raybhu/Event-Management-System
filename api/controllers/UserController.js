@@ -55,5 +55,4 @@ module.exports = {
         res.status(200);
         return res.json();
     },
-    // TODO: 写入登记和取消事件的函数 注意要在policies里规定 只有存在session 的情况下可以访问这俩个接口
 };

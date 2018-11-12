@@ -106,7 +106,9 @@
                     </p>
                 </td>
                 <td class="">
-                    <button class="btn btn-warning" herf="/admin/update/<%= model.id %>">Update</button>
+                    <form action="/admin/update/<%= model.id %>" method="GET">
+                        <button class="btn btn-warning">Update</button>
+                    </form>
                 </td>
                 <td class="">
                     <form action="/admin/delete/<%= model.id %>" method="POST">
