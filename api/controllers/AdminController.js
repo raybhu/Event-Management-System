@@ -6,14 +6,19 @@
  */
 module.exports = {
   init: async function (req, res) {
-    var eventModels = await Event.find();
-    var user;
-    if (typeof req.session.username !== 'undefined') {
-      user = await User.findOne({
-        username: req.session.username
-      });
-    }
-    if (req.method === 'GET') {
+
+    if (req.method === 'POST') {
+      return res.forbidden();
+    } else if (req.method === 'GET') {
+
+      var eventModels = await Event.find();
+      var user;
+      if (typeof req.session.username !== 'undefined') {
+        user = await User.findOne({
+          username: req.session.username
+        });
+      }
+
       return res.view('pages/Admin', {
         isUpdate: false,
         events: eventModels,
@@ -21,6 +26,7 @@ module.exports = {
         user: typeof user === 'undefined' ? null : user,
       });
     }
+
   },
   update: async function (req, res) {
     var ExistedEvent = await Event.findOne(req.params.id);
@@ -113,7 +119,8 @@ module.exports = {
     if (req.method === 'GET') {
       return res.forbidden();
     } else if (req.method === 'POST') {
-      await Event.destroy(req.params.id).fetch();
+
+      await Event.destroy(req.body.btnDelete).fetch();
       var eventModels = await Event.find();
       var user;
       if (typeof req.session.username !== 'undefined') {
@@ -135,6 +142,9 @@ module.exports = {
     }
   },
   search: async function (req, res) {
+    if (req.method === 'GET') {
+      return res.forbidden();
+    }
     var event = await Event.findOne({
       id: req.body.eventId
     });

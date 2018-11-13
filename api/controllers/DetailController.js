@@ -6,10 +6,17 @@
  */
 module.exports = {
   init: async function (req, res) {
+
     if (req.method === 'POST') {
       return res.forbidden();
     }
     var eventModel = await Event.findOne(req.params.id);
+
+    if (typeof eventModel === 'undefined') {
+
+      return res.badRequest('The event is not exist! Please Back to Homepage.');
+
+    }
     var user;
     if (typeof req.session.username !== 'undefined') {
       user = await User.findOne({

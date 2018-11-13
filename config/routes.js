@@ -28,7 +28,7 @@ module.exports.routes = {
   'GET /admin': 'AdminController.init',
   'GET /admin/update/:id': 'AdminController.update',
   'POST /admin/update/:id': 'AdminController.update',
-  'POST /admin/delete/:id': 'AdminController.delete',
+  'POST /admin/delete/': 'AdminController.delete',
   'POST /admin/search/': 'AdminController.search',
   'GET /search': 'SearchController.init',
   'GET /detail/:id': 'DetailController.init',
