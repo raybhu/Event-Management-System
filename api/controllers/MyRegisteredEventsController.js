@@ -11,10 +11,7 @@ module.exports = {
             user = await User.findOne({ username: req.session.username });
         }
         var registeredModels = await User.find({ id: user.id }).populate('registered');
-        // console.log('---------------');
-        // console.log(typeof registeredModels);
-        // console.log(registeredModels[0].registered);
-        // console.log('---------------');
+
         return res.view('pages/MyRegisteredEvents', {
             layout: 'layouts/bootstrap',
             user: typeof user === "undefined" ? null : user,

@@ -33,7 +33,6 @@ module.exports = {
         if (typeof req.query.searchVenue !== 'undefined') {
             constraint["venue"] = req.query.searchVenue;
         }
-        console.log(constraint);
         const qPage = Math.max(req.query.page - 1, 0) || 0;
         const numOfItemsPerPage = 2;
         var amount = 0;

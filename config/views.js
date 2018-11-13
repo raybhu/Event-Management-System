@@ -13,9 +13,7 @@
  * For more background information on views and partials in Sails, check out:
  * https://sailsjs.com/docs/concepts/views
  */
-
 module.exports.views = {
-
   /***************************************************************************
   *                                                                          *
   * Extension to use for your views. When calling `res.view()` in an action, *
@@ -24,9 +22,7 @@ module.exports.views = {
   * `views/homepage.ejs` file.                                               *
   *                                                                          *
   ***************************************************************************/
-
   // extension: 'ejs',
-
   /***************************************************************************
   *                                                                          *
   * The path (relative to the views directory, and without extension) to     *
@@ -35,7 +31,5 @@ module.exports.views = {
   * Note that layouts only work with the built-in EJS view engine!           *
   *                                                                          *
   ***************************************************************************/
-
   layout: 'layouts/layout'
-
 };

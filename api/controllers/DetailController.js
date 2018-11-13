@@ -17,7 +17,6 @@ module.exports = {
         var isRegistered = false;
         var userModel = await User.findOne(user.id).populate('registered');
         for (var i in userModel.registered) {
-            console.log(userModel.registered[i]);
             if (userModel.registered[i].id == eventModel.id) {
                 isRegistered = true;
             }
