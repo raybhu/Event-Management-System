@@ -6,32 +6,32 @@
  */
 module.exports = {
   init: async function (req, res) {
-    if (req.method == "POST") {
+    if (req.method === 'POST') {
       return res.forbidden();
     }
     var eventModels = null;
     var constraint = {};
     if (typeof req.query.searchEventName !== 'undefined') {
-      constraint["eventName"] = { contains: req.query.searchEventName };
+      constraint['eventName'] = { contains: req.query.searchEventName };
     }
     if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchStartDate) {
       //constraint["eventDate"] = req.query.searchStartDate;
-      if (typeof constraint["eventDate"] === 'undefined') {
-        constraint["eventDate"] = {};
+      if (typeof constraint['eventDate'] === 'undefined') {
+        constraint['eventDate'] = {};
       }
-      constraint["eventDate"]['>='] = req.query.searchStartDate;
+      constraint['eventDate']['>='] = req.query.searchStartDate;
     }
     if (typeof req.query.searchEndDate !== 'undefined' && req.query.searchEndDate) {
-      if (typeof constraint["eventDate"] === 'undefined') {
-        constraint["eventDate"] = {};
+      if (typeof constraint['eventDate'] === 'undefined') {
+        constraint['eventDate'] = {};
       }
-      constraint["eventDate"]['<='] = req.query.searchEndDate;
+      constraint['eventDate']['<='] = req.query.searchEndDate;
     }
     if (typeof req.query.searchOrganizer !== 'undefined') {
-      constraint["organizer"] = req.query.searchOrganizer;
+      constraint['organizer'] = req.query.searchOrganizer;
     }
     if (typeof req.query.searchVenue !== 'undefined') {
-      constraint["venue"] = req.query.searchVenue;
+      constraint['venue'] = req.query.searchVenue;
     }
     const qPage = Math.max(req.query.page - 1, 0) || 0;
     const numOfItemsPerPage = 2;
@@ -59,10 +59,10 @@ module.exports = {
     var organizerCount = await Organizer.count();
     var numOfPage = Math.ceil(amount / numOfItemsPerPage);
     var user;
-    if (typeof req.session.username !== "undefined") {
+    if (typeof req.session.username !== 'undefined') {
       user = await User.findOne({ username: req.session.username });
     }
-    if (req.method == "GET") {
+    if (req.method === 'GET') {
       return res.view('pages/Search', {
         events: eventModels,
         venues: venueModels,
@@ -71,7 +71,7 @@ module.exports = {
         organizersCount: organizerCount,
         count: numOfPage,
         layout: 'layouts/bootstrap',
-        user: typeof user === "undefined" ? null : user,
+        user: typeof user === 'undefined' ? null : user,
       });
     }
   },

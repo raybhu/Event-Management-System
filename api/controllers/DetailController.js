@@ -6,25 +6,27 @@
  */
 module.exports = {
   init: async function (req, res) {
-    if (req.method == 'POST') {
+    if (req.method === 'POST') {
       return res.forbidden();
     }
     var eventModel = await Event.findOne(req.params.id);
     var user;
-    if (typeof req.session.username !== "undefined") {
-      user = await User.findOne({ username: req.session.username });
+    if (typeof req.session.username !== 'undefined') {
+      user = await User.findOne({
+        username: req.session.username
+      });
     }
     var isRegistered = false;
     var userModel = await User.findOne(user.id).populate('registered');
     for (var i in userModel.registered) {
-      if (userModel.registered[i].id == eventModel.id) {
+      if (userModel.registered[i].id === eventModel.id) {
         isRegistered = true;
       }
     }
     return res.view('pages/Detail', {
       eventModel: eventModel,
       layout: 'layouts/bootstrap',
-      user: typeof user === "undefined" ? null : user,
+      user: typeof user === 'undefined' ? null : user,
       isRegistered: isRegistered,
     });
   },
