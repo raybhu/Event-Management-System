@@ -23,5 +23,9 @@ module.exports.policies = {
   },
   MyRegisteredEventsController: {
     '*': 'isStudent',
+  },
+  UserController: {
+    registerEvent: 'isStudent',
+    cancelEvent: 'isStudent'
   }
 };
