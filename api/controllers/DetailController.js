@@ -6,16 +6,12 @@
  */
 module.exports = {
   init: async function (req, res) {
-
     if (req.method === 'POST') {
       return res.forbidden();
     }
     var eventModel = await Event.findOne(req.params.id);
-
     if (typeof eventModel === 'undefined') {
-
       return res.badRequest('The event is not exist! Please Back to Homepage.');
-
     }
     var user;
     if (typeof req.session.username !== 'undefined') {
@@ -25,7 +21,6 @@ module.exports = {
     }
     var isRegistered = false;
     if (typeof user !== 'undefined') {
-
       var userModel = await User.findOne(user.id).populate('registered');
       for (var i in userModel.registered) {
         if (userModel.registered[i].id === eventModel.id) {
@@ -33,13 +28,11 @@ module.exports = {
         }
       }
     }
-
     return res.view('pages/Detail', {
       eventModel: eventModel,
       layout: 'layouts/bootstrap',
       user: typeof user === 'undefined' ? null : user,
       isRegistered: isRegistered,
-
     });
   },
 };

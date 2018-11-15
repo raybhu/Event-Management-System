@@ -51,6 +51,10 @@ module.exports = {
           content: 'Sorry, you failure created event. Failure reasons: The Venue must be selected!'
         };
       } else {
+        // var d = new Date(req.body.Event.eventDate);
+        // console.log(req.body.Event.eventDate);
+        // console.log(d);
+        // req.body.Event.eventDate = d;
         await Event.create(req.body.Event);
         isSuccessfulCreatedEvent = true;
         log = {

@@ -75,7 +75,8 @@
               <%=eventModel.organizer%>
             </li>
             <li class="list-group-item"><b>Date: </b>
-              <%=eventModel.eventDate%>
+
+              <%= new Date(eventModel.eventDate).toLocaleDateString()%>
             </li>
             <li class="list-group-item"><b>Time: </b>
               <%=eventModel.startTime%>
