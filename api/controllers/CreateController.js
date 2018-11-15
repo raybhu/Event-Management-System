@@ -29,6 +29,7 @@ module.exports = {
         organizersCount: organizerCount,
         layout: 'layouts/bootstrap',
         user: typeof user === 'undefined' ? null : user,
+        isNeedTimePicker: true,
       });
     } else if (req.method === 'POST') {
       if (typeof req.body.Event === 'undefined') {
@@ -66,6 +67,7 @@ module.exports = {
         organizersCount: organizerCount,
         layout: 'layouts/bootstrap',
         user: typeof user === 'undefined' ? null : user,
+        isNeedTimePicker: true,
       });
     }
   },

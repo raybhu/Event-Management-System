@@ -59,6 +59,7 @@ module.exports = {
         organizersCount: organizerCount,
         layout: 'layouts/bootstrap',
         user: typeof user === 'undefined' ? null : user,
+        isNeedTimePicker: true
       });
     } else if (req.method === 'POST') {
       if (typeof req.body.Event === 'undefined') {
@@ -87,7 +88,8 @@ module.exports = {
           imageUrl: req.body.Event.imageUrl,
           organizer: req.body.Event.organizer,
           eventDate: req.body.Event.eventDate,
-          time: req.body.Event.time,
+          startTime: req.body.Event.startTime,
+          endTime: req.body.Event.endTime,
           venue: req.body.Event.venue,
           quota: req.body.Event.quota,
           highlightedEvent: typeof req.body.Event.highlightedEvent === 'undefined' ? false : true,

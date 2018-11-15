@@ -189,7 +189,17 @@
         </div>
         <div class="form-group">
           <label for="time">Time:</label>
-          <input value="<%= eventModel.time %>" name="Event[time]" type="time" class="form-control" id="time" required>
+
+          <div class="col-md-12 row" id="time">
+
+            <input value="<%= eventModel.startTime %>" name="Event[startTime]" id="start" class="form-control" style="width: 50%;"
+              placeholder="Start Time" required />
+            <input value="<%= eventModel.endTime %>" name="Event[endTime]" id="end" class="form-control " style="width: 50%;"
+              placeholder="End Time" required />
+
+          </div>
+
+          <!-- <input value="<%= eventModel.time %>" name="Event[time]" type="time" class="form-control" id="time" required> -->
         </div>
         <div class="form-group">
           <label for="venue">Venue:</label>
@@ -244,5 +254,45 @@
       alert(response.statusText);
     }
   }
+
+</script>
+<script>
+  $(document).ready(function () {
+    function startChange() {
+      var startTime = start.value();
+
+      if (startTime) {
+        startTime = new Date(startTime);
+
+        end.max(startTime);
+
+        startTime.setMinutes(startTime.getMinutes() + this.options.interval);
+
+        end.min(startTime);
+        end.value(startTime);
+      }
+    }
+
+    //init start timepicker
+    var start = $("#start").kendoTimePicker({
+      change: startChange,
+      dateInput: true,
+      format: "HH:mm"
+    }).data("kendoTimePicker");
+
+    //init end timepicker
+    var end = $("#end").kendoTimePicker({
+      dateInput: true,
+      format: "HH:mm"
+    }).data("kendoTimePicker");
+
+    //define min/max range
+    // start.min("8:00 AM");
+    // start.max("6:00 PM");
+
+    //define min/max range
+    // end.min("8:00 AM");
+    // end.max("7:30 AM");
+  });
 
 </script>

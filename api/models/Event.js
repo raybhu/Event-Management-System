@@ -10,34 +10,38 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     eventName: {
-      type: "string"
+      type: 'string'
     },
     shortDescription: {
-      type: "string"
+      type: 'string'
     },
     fullDescription: {
-      type: "string"
+      type: 'string'
     },
     imageUrl: {
-      type: "string"
+      type: 'string'
     },
     organizer: {
-      type: "string"
+      type: 'string'
     },
     eventDate: {
-      type: "string"
+      type: 'ref',
+      columnType: 'datetime',
     },
-    time: {
-      type: "string"
+    startTime: {
+      type: 'string'
+    },
+    endTime: {
+      type: 'string'
     },
     venue: {
-      type: "string"
+      type: 'string'
     },
     quota: {
-      type: "number"
+      type: 'number'
     },
     highlightedEvent: {
-      type: "boolean",
+      type: 'boolean',
       defaultsTo: false
     },
     beRegister: {

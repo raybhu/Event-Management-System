@@ -39,6 +39,7 @@ module.exports = {
       layout: 'layouts/bootstrap',
       user: typeof user === 'undefined' ? null : user,
       isRegistered: isRegistered,
+
     });
   },
 };
