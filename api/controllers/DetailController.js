@@ -24,12 +24,16 @@ module.exports = {
       });
     }
     var isRegistered = false;
-    var userModel = await User.findOne(user.id).populate('registered');
-    for (var i in userModel.registered) {
-      if (userModel.registered[i].id === eventModel.id) {
-        isRegistered = true;
+    if (typeof user !== 'undefined') {
+
+      var userModel = await User.findOne(user.id).populate('registered');
+      for (var i in userModel.registered) {
+        if (userModel.registered[i].id === eventModel.id) {
+          isRegistered = true;
+        }
       }
     }
+
     return res.view('pages/Detail', {
       eventModel: eventModel,
       layout: 'layouts/bootstrap',

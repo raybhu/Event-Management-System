@@ -6,7 +6,7 @@
  */
 module.exports = {
   init: async function (req, res) {
-    console.log(req.query);
+
     if (req.method === 'POST') {
       return res.forbidden();
     }
