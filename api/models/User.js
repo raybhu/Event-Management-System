@@ -20,8 +20,8 @@ module.exports = {
     },
     role: {
       type: 'string',
-      enum: ['admin', 'student'],
-      defaultsTo: 'visitor'
+      // The `enum` validation rule is now `isIn`
+      isIn: ['admin', 'student'],
     },
     registered: {
       collection: 'Event',

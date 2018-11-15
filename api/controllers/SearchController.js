@@ -6,13 +6,16 @@
  */
 module.exports = {
   init: async function (req, res) {
+    console.log(req.query);
     if (req.method === 'POST') {
       return res.forbidden();
     }
     var eventModels = null;
     var constraint = {};
     if (typeof req.query.searchEventName !== 'undefined') {
-      constraint['eventName'] = { contains: req.query.searchEventName };
+      constraint['eventName'] = {
+        contains: req.query.searchEventName
+      };
     }
     if (typeof req.query.searchStartDate !== 'undefined' && req.query.searchStartDate) {
       //constraint["eventDate"] = req.query.searchStartDate;
@@ -60,7 +63,9 @@ module.exports = {
     var numOfPage = Math.ceil(amount / numOfItemsPerPage);
     var user;
     if (typeof req.session.username !== 'undefined') {
-      user = await User.findOne({ username: req.session.username });
+      user = await User.findOne({
+        username: req.session.username
+      });
     }
     if (req.method === 'GET') {
       return res.view('pages/Search', {
