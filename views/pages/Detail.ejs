@@ -75,7 +75,6 @@
               <%=eventModel.organizer%>
             </li>
             <li class="list-group-item"><b>Date: </b>
-
               <%= new Date(eventModel.eventDate).toLocaleDateString()%>
             </li>
             <li class="list-group-item"><b>Time: </b>
@@ -89,12 +88,16 @@
             <li class="list-group-item" id="eventQuota"><b>Quota: </b>
               <%=eventModel.quota%>
             </li>
-            <%if (user && user.role == 'student') {%>
-            <%  if (!isRegistered) {%>
+            <%if (user && user.role === 'student') {%>
+            <% if (eventModel.quota === 0){%>
+            <li class="list-group-item">
+              <button class="btn btn-secondary" disabled>Quota Reached</button>
+            </li>
+            <% } else if (!isRegistered) {%>
             <li class="list-group-item">
               <button class="btn btn-primary" onclick="registerEvent(this)" value=<%=eventModel.id%>>Register</button>
             </li>
-            <% } else {%>
+            <%} else {%>
             <li class="list-group-item">
               <button class="btn btn-danger" onclick="cancelEvent(this)" value=<%=eventModel.id%>>Cancel</button>
             </li>

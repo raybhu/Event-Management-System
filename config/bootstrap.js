@@ -49,7 +49,7 @@ module.exports.bootstrap = async function (done) {
     startTime: '12:00',
     endTime: '13:00',
     venue: 'AAB',
-    quota: '50',
+    quota: '0',
     highlightedEvent: true,
   },
   {

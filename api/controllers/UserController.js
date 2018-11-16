@@ -6,10 +6,18 @@
  */
 module.exports = {
   login: async function (req, res) {
-    if (req.method === 'GET') {return res.redirect('/');}
-    if (!req.body.username) {return res.badRequest();}
-    if (!req.body.password) {return res.badRequest();}
-    var user = await User.findOne({ username: req.body.username });
+    if (req.method === 'GET') {
+      return res.redirect('/');
+    }
+    if (!req.body.username) {
+      return res.badRequest();
+    }
+    if (!req.body.password) {
+      return res.badRequest();
+    }
+    var user = await User.findOne({
+      username: req.body.username
+    });
     if (!user) {
       res.status(401);
       return res.send('User not found');
@@ -20,7 +28,9 @@ module.exports = {
       return res.send('Wrong Password');
     }
     req.session.regenerate((err) => {
-      if (err) {return res.serverError(err);}
+      if (err) {
+        return res.serverError(err);
+      }
       req.session.username = req.body.username;
       sails.log('Login successfully. \n Session: ' + JSON.stringify(req.session));
       // res.status(401);
@@ -31,13 +41,19 @@ module.exports = {
   },
   logout: async function (req, res) {
     req.session.destroy((err) => {
-      if (err) {return res.serverError(err);}
+      if (err) {
+        return res.serverError(err);
+      }
       return res.redirect('/');
     });
   },
   registerEvent: async function (req, res) {
-    var event = await Event.findOne({ id: req.body.eventId });
-    var user = await User.findOne({ username: req.session.username });
+    var event = await Event.findOne({
+      id: req.body.eventId
+    });
+    var user = await User.findOne({
+      username: req.session.username
+    });
     await User.addToCollection(user.id, 'registered').members(req.body.eventId);
     await Event.update(event.id).set({
       quota: event.quota - 1,
@@ -46,8 +62,12 @@ module.exports = {
     return res.json();
   },
   cancelEvent: async function (req, res) {
-    var event = await Event.findOne({ id: req.body.eventId });
-    var user = await User.findOne({ username: req.session.username });
+    var event = await Event.findOne({
+      id: req.body.eventId
+    });
+    var user = await User.findOne({
+      username: req.session.username
+    });
     await User.removeFromCollection(user.id, 'registered').members(req.body.eventId);
     await Event.update(event.id).set({
       quota: event.quota + 1,
