@@ -48,7 +48,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-28',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'AAB',
+    venue: 'SCE',
     quota: '0',
     highlightedEvent: true,
   },
@@ -61,7 +61,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-29',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'SCE',
     quota: '50',
     highlightedEvent: false,
   }, {
@@ -73,7 +73,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-30',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'AAB',
+    venue: 'SCT',
     quota: '50',
     highlightedEvent: true,
   },
@@ -86,7 +86,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-31',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'SCT',
     quota: '50',
     highlightedEvent: false,
   }, {
@@ -98,7 +98,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-11-1',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'AAB',
+    venue: 'OEE',
     quota: '50',
     highlightedEvent: true,
   },
@@ -111,7 +111,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-27',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'OEE',
     quota: '50',
     highlightedEvent: false,
   }, {
@@ -123,7 +123,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-26',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'AAB',
+    venue: 'WLB',
     quota: '50',
     highlightedEvent: true,
   },
@@ -136,7 +136,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-25',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'WLB',
     quota: '50',
     highlightedEvent: false,
   },
@@ -149,7 +149,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-24',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'AAB',
+    venue: 'DLB',
     quota: '50',
     highlightedEvent: true,
   },
@@ -162,7 +162,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-23',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'DLB',
     quota: '50',
     highlightedEvent: false,
   }, {
@@ -187,7 +187,7 @@ module.exports.bootstrap = async function (done) {
     eventDate: '2018-10-21',
     startTime: '12:00',
     endTime: '13:00',
-    venue: 'FSC',
+    venue: 'AAB',
     quota: '50',
     highlightedEvent: false,
   },
@@ -206,116 +206,41 @@ module.exports.bootstrap = async function (done) {
   if (await Venue.count() > 0) {
     return done();
   }
-  await Venue.createEach([{
-    name: 'AAB'
-  },
-  {
-    name: 'RRS'
-  },
-  {
-    name: 'FSC'
-  },
-  {
-    name: 'YSS'
-  },
-  {
-    name: 'SCT'
-  },
-  {
-    name: 'LT'
-  },
-  {
-    name: 'OEE'
-  },
-  {
-    name: 'OEW'
-  },
-  {
-    name: 'OEM'
-  },
-  {
-    name: 'CEC'
-  },
-  {
-    name: 'CHAP'
-  },
-  {
-    name: 'LMC'
-  },
-  {
-    name: 'AC HALL'
-  },
-  {
-    name: 'AST'
-  },
-  {
-    name: 'ASH'
-  },
-  {
-    name: 'MHALL'
-  },
-  {
-    name: 'ACTR'
-  },
-  {
-    name: 'FITR'
-  },
-  {
-    name: 'SQCT'
-  },
-  {
-    name: 'SWPL'
-  },
-  {
-    name: 'SWT'
-  },
-  {
-    name: 'AML'
-  },
-  {
-    name: 'WLB'
-  },
-  {
-    name: 'DLB'
-  },
-  {
-    name: 'SHSH'
-  },
-  {
-    name: 'SCC'
-  },
-  {
-    name: 'JSC'
-  },
-  {
-    name: 'TNSCT'
-  },
-  {
-    name: 'GOLF'
-  },
-  {
-    name: 'MPC'
-  },
-  {
-    name: 'SCE'
-  },
-  {
-    name: 'ACC'
-  },
-  {
-    name: 'SCM'
-  },
-  {
-    name: 'HALL'
-  },
-  {
-    name: 'SRH/G9'
-  },
-  {
-    name: 'CVA'
-  },
-    // etc.
-  ]);
+  var venueList = [
+    'POD',
+    'SWT501',
+    'LW',
+    'LIP',
+    'OEE',
+    'JSCY',
+    'MAINPO',
+    'WLB',
+    'AST',
+    'AMP',
+    'SCT',
+    'SCE',
+    'WHSC',
+    'JSC',
+    'CHAP',
+    'SCM',
+    'CVA',
+    'AC Hall',
+    'LMC',
+    'FSC901E',
+    'ACC',
+    'OEM',
+    'OEW',
+    'RRS638',
+    'DLB',
+    'AAB'
+  ];
+  var exampledVenue = [];
+  for (var index = 0; index < venueList.length; index++) {
+    exampledVenue.push({
+      name: venueList[index]
+    });
+  }
+  await Venue.createEach(exampledVenue);
   const testEvent1 = await Event.findOne({
     eventName: '1.HKBU student wins Macao Scientific and Technological Research and Development Award for Postgraduates'
   });
