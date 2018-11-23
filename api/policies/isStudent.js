@@ -13,7 +13,7 @@ module.exports = async function (req, res, proceed) {
       username: req.session.username
     });
   }
-  if (typeof user !== 'undefined' && user.role == 'student') {
+  if (typeof user !== 'undefined' && user.role === 'student') {
     return proceed(); //proceed to the next policy,
   }
   //--•
