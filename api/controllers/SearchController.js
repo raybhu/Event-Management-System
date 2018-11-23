@@ -6,9 +6,38 @@
  */
 module.exports = {
   init: async function (req, res) {
-
     if (req.method === 'POST') {
       return res.forbidden();
+    }
+    if (req.wantsJSON) {
+      var eventModel = null;
+      if (req.query.id) {
+        eventModel = await Event.findOne({
+          id: req.query.id
+        });
+      }
+      if (req.query.venueId) {
+        eventModel = await Event.find({
+          where: {
+            venue: req.query.venueId
+          },
+          sort: 'eventName',
+        });
+      }
+      if (req.query.organizerList) {
+        eventModel = await Event.find({
+          select: ['organizer']
+        });
+      }
+      if (req.query.organizer) {
+        eventModel = await Event.find({
+          where: {
+            organizer: req.query.organizer
+          },
+          sort: 'eventName',
+        });
+      }
+      return res.json(eventModel);
     }
     var eventModels = null;
     var constraint = {};

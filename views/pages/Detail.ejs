@@ -112,7 +112,7 @@
 </div>
 <script>
   async function registerEvent(button) {
-    // alert('1');
+
     if (typeof button.value !== "undefined" && button.value) {
       var response = await fetch("/user/event/", {
         method: "POST",

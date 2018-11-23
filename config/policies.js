@@ -26,6 +26,7 @@ module.exports.policies = {
   },
   UserController: {
     registerEvent: 'isStudent',
-    cancelEvent: 'isStudent'
+    cancelEvent: 'isStudent',
+    checkRegistrationStatus: 'isStudent',
   }
 };

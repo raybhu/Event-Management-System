@@ -7,12 +7,22 @@
 module.exports = {
   init: async function (req, res) {
     var user;
+    var registeredModels;
+    if (req.wantsJSON) {
+      user = await User.findOne({
+        username: req.body.session.username
+      });
+      registeredModels = await User.find({
+        id: user.id
+      }).populate('registered');
+      return res.json(registeredModels);
+    }
     if (typeof req.session.username !== 'undefined') {
       user = await User.findOne({
         username: req.session.username
       });
     }
-    var registeredModels = await User.find({
+    registeredModels = await User.find({
       id: user.id
     }).populate('registered');
     return res.view('pages/MyRegisteredEvents', {

@@ -33,10 +33,12 @@ module.exports.routes = {
   'GET /search': 'SearchController.init',
   'GET /detail/:id': 'DetailController.init',
   'GET /my-registered-events': 'MyRegisteredEventsController.init',
+  'POST /my-registered-events': 'MyRegisteredEventsController.init',
   'POST /login': 'UserController.login',
   'POST /logout': 'UserController.logout',
   'POST /user/event/': 'UserController.registerEvent',
   'DELETE /user/event/': 'UserController.cancelEvent',
+  'POST /ionic/check-registration-status/': 'UserController.checkRegistrationStatus',
   /***************************************************************************
    *                                                                          *
    * More custom routes here...                                               *

@@ -10,7 +10,7 @@ module.exports = {
       where: {
         highlightedEvent: true
       },
-      limit: 4,
+      limit: req.wantsJSON ? null : 4,
     }).sort('createdAt DESC');
     var user;
     if (typeof req.session.username !== 'undefined') {
@@ -18,15 +18,17 @@ module.exports = {
         username: req.session.username
       });
     }
+    if (req.wantsJSON) {
+      return res.json(eventModels);
+    }
     if (typeof eventModels !== 'undefined' && eventModels) {
       return res.view('pages/homepage', {
         events: eventModels,
         layout: 'layouts/bootstrap',
         user: typeof user === 'undefined' ? null : user,
       });
+    } else {
+      return res.badRequest('There is no event model in Database.');
     }
-    return res.view('pages/homepage', {
-      layout: 'layouts/bootstrap'
-    });
   },
 };
